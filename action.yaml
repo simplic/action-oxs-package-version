@@ -1,0 +1,6 @@
+name: 'oxs-package-version'
+description: 'Updates a package version and create a json as output.'
+
+branding:
+  icon: log-in
+  color: 'blue'
