@@ -34,4 +34,4 @@ runs:
       uses: EndBug/add-and-commit@v7
       with:
         message: "Update version to ${{ inputs.branch }}"
-        add: ${{ inputs.package }}/manifest.json
+        add: ${{ inputs.package }}
