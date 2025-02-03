@@ -1,6 +1,36 @@
 name: 'oxs-package-version'
-description: 'Updates a package version and create a json as output.'
+description: 'Updates a package version in the manifest file.'
 
 branding:
   icon: log-in
   color: 'blue'
+
+inputs: 
+  package:
+    description: 'The package folder with the manifest file..'
+    required: true
+
+  branch:
+    description: 'The current branch, main or production.'
+    required: true
+
+runs:
+  using: 'python3'
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Run Python script to update version
+      run: |
+        python update_version_number.py ${{ inputs.package }} ${{ inputs.branch }}
+
+    - name: Commit version update
+      uses: EndBug/add-and-commit@v7
+      with:
+        message: "Update version to ${{ inputs.branch }}"
+        add: ${{ inputs.package }}/manifest.json
