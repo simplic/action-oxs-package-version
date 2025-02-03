@@ -26,6 +26,7 @@ runs:
         python-version: '3.11'
 
     - name: Run Python script to update version
+      shell: bash
       run: |
         python update_version_number.py ${{ inputs.package }} ${{ inputs.branch }}
 
