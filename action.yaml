@@ -6,10 +6,14 @@ branding:
   color: 'blue'
 
 inputs: 
-  package:
-    description: 'The package folder with the manifest file..'
+  mainFolder:
+    description: 'The repository and the main folder where to find the sub folders.'
     required: true
 
+  packageFolders:
+    description: 'A list of folders where are the manifest files'
+    required: true
+    
   branch:
     description: 'The current branch, main or production.'
     required: true
@@ -28,10 +32,14 @@ runs:
     - name: Run Python script to update version
       shell: bash
       run: |
-        python ${{ github.action_path }}/update_version_number.py ${{ inputs.package }} ${{ inputs.branch }}
+        for package in ${{ inputs.packageFolder }}; do
+          python ${{ github.action_path }}/update_version_number.py ${{ inputs.package }}$package/manifest.json ${{ inputs.branch }}
+          git add ${{ inputs.package }}$package/manifest.json
+        done
 
     - name: Commit version update
       uses: EndBug/add-and-commit@v7
       with:
         message: "Update version to ${{ inputs.branch }}"
-        add: ${{ inputs.package }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
