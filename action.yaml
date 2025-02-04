@@ -36,10 +36,3 @@ runs:
           python ${{ github.action_path }}/update_version_number.py ${{ inputs.package }}$package/manifest.json ${{ inputs.branch }}
           git add ${{ inputs.package }}$package/manifest.json
         done
-
-    - name: Commit version update
-      uses: EndBug/add-and-commit@v7
-      with:
-        message: "Update version to ${{ inputs.branch }}"
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
