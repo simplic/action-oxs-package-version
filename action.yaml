@@ -32,7 +32,7 @@ runs:
     - name: Run Python script to update version
       shell: bash
       run: |
-        for package in ${{ inputs.packageFolder }}; do
+        for package in ${{ inputs.packageFolders }}; do
           python ${{ github.action_path }}/update_version_number.py ${{ inputs.package }}$package/manifest.json ${{ inputs.branch }}
           git add ${{ inputs.package }}$package/manifest.json
         done
