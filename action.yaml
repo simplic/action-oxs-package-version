@@ -34,5 +34,5 @@ runs:
       run: |
         for package in ${{ inputs.packageFolders }}; do
           python ${{ github.action_path }}/update_version_number.py ${{ inputs.mainFolder }}$package/manifest.json ${{ inputs.branch }}
-          git add ${{ inputs.package }}$package/manifest.json
+          git add ${{ inputs.mainFolder }}$package/manifest.json
         done
