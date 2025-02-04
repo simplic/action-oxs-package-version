@@ -33,6 +33,6 @@ runs:
       shell: bash
       run: |
         for package in ${{ inputs.packageFolders }}; do
-          python ${{ github.action_path }}/update_version_number.py ${{ inputs.package }}$package/manifest.json ${{ inputs.branch }}
+          python ${{ github.action_path }}/update_version_number.py ${{ inputs.mainFolder }}$package/manifest.json ${{ inputs.branch }}
           git add ${{ inputs.package }}$package/manifest.json
         done
