@@ -46,5 +46,6 @@ runs:
       uses: EndBug/add-and-commit@v7
       with:
         message: "Update version from packages: ${{ inputs.packageFolders }}"
+        branch: "${{ inputs.branch }}"
       env:
         GITHUB_TOKEN: ${{ inputs.github_token }}
