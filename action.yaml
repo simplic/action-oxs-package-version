@@ -36,3 +36,10 @@ runs:
           python ${{ github.action_path }}/update_version_number.py ${{ inputs.mainFolder }}$package/manifest.json ${{ inputs.branch }}
           git add ${{ inputs.mainFolder }}$package/manifest.json
         done
+
+    - name: Commit version update
+      uses: EndBug/add-and-commit@v7
+      with:
+        message: "Update version from packages: ${{ inputs.packageFolders }}"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
