@@ -18,6 +18,11 @@ inputs:
     description: 'The current branch, main or production.'
     required: true
 
+  github_token:
+    description: 'GitHub token for authentication'
+    required: true
+    default: ''
+
 runs:
   using: 'composite'
   steps:
@@ -42,4 +47,4 @@ runs:
       with:
         message: "Update version from packages: ${{ inputs.packageFolders }}"
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ inputs.github_token }}
