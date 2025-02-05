@@ -46,7 +46,7 @@ def read_json(filename):
 
 def write_json(filename, data):
     with open(filename, 'w') as file:
-        json.dump(data, file, indent=4)
+        json.dump(data, file, indent=2)
 
 def main():
     # Set up argument parsing
