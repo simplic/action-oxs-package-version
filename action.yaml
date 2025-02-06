@@ -29,7 +29,7 @@ runs:
     - name: Checkout PR branch
       uses: actions/checkout@v4
       with:
-        ref: "${{ github.head_ref }}" # This ensures you check out the branch where the PR is pushed
+        ref: "${{ github.base_ref }}" # This ensures you check out the branch where the PR is pushed
 
     - name: Set up Python
       uses: actions/setup-python@v4
