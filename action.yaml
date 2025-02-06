@@ -26,8 +26,10 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Checkout code
+    - name: Checkout PR branch
       uses: actions/checkout@v4
+      with:
+        ref: "${{ github.head_ref }}" # This ensures you check out the branch where the PR is pushed
 
     - name: Set up Python
       uses: actions/setup-python@v4
@@ -43,9 +45,8 @@ runs:
         done
 
     - name: Commit version update
-      uses: EndBug/add-and-commit@v7
+      uses: EndBug/add-and-commit@v9
       with:
         message: "Update version from packages: ${{ inputs.packageFolders }}"
-        branch: "${{ inputs.branch }}"
       env:
         GITHUB_TOKEN: ${{ inputs.github_token }}
