@@ -44,6 +44,10 @@ runs:
       with:
         python-version: '3.11'
 
+    - name: Install dependencies
+      run: |
+        pip install requests
+
     - name: Run Python script to update version
       shell: bash
       run: |
