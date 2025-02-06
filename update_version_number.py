@@ -1,6 +1,7 @@
 import re
 import json
 import argparse
+import requests
 from datetime import datetime
 
 def update_version(version, branch):
@@ -39,6 +40,24 @@ def update_version(version, branch):
     
     return new_version
 
+def get_package_version(api_env, package_name, bearer):
+    url = f"{api_env}/repository-api/v2/Package/{package_name}"
+    headers = {
+        'accept': 'text/plain',
+        'Authorization': f'Bearer {bearer}'
+    }
+
+    response = requests.get(url, headers=headers)
+
+    if response.status_code == 200:
+        # Assuming the response is JSON and contains the 'version' key
+        response_data = response.json()
+        version = response_data.get('version')
+        return version
+    else:
+        print(f"Error: {response.status_code}, {response.text}")
+        return None
+
 def read_json(filename):
     with open(filename, 'r') as file:
         data = json.load(file)
@@ -53,15 +72,23 @@ def main():
     parser = argparse.ArgumentParser(description="Update the version of the JSON file.")
     parser.add_argument("json_file", help="The path to the JSON file.")
     parser.add_argument("branch", help="The branch name (e.g., 'main', 'production').")
+    parser.add_argument("bearer", help="The bearer token for authorization in oxs")
+    parser.add_argument("api_env", help="The envoirement (main, production) in which the api will execute.")
     
     args = parser.parse_args()
     
     json_file = args.json_file
     branch = args.branch
+    bearer_token = args.bearer
+    api_env = args.api_env
     
     data = read_json(json_file)
     
-    old_version = data.get("version", "1.0.0.0")
+    package_name = data.get("id")
+    old_version = get_package_version(api_env, package_name, bearer_token)
+
+    if(old_version == None):
+        old_version = '1.0.0.0'
     
     new_version = update_version(old_version, branch)
     data["version"] = new_version

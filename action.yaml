@@ -23,6 +23,14 @@ inputs:
     required: true
     default: ''
 
+  bearer_token:
+    description: 'Bearer token for oxs authentication'
+    required: true
+  
+  api_url:
+    description: 'The url which api environment (main, production) will be called'
+    required: true
+
 runs:
   using: 'composite'
   steps:
@@ -40,7 +48,7 @@ runs:
       shell: bash
       run: |
         for package in ${{ inputs.packageFolders }}; do
-          python ${{ github.action_path }}/update_version_number.py ${{ inputs.mainFolder }}$package/manifest.json ${{ inputs.branch }}
+          python ${{ github.action_path }}/update_version_number.py ${{ inputs.mainFolder }}$package/manifest.json ${{ inputs.branch }} ${{ inputs.bearer_token }} ${{ inputs.api_url }}
           git add ${{ inputs.mainFolder }}$package/manifest.json
         done
 
